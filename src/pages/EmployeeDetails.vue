@@ -15,6 +15,10 @@
                             {{ employee.LastName }}, {{ employee.FirstName }}
                         </h3>
                     </div>
+                    <div v-if="message" class="list-group-item"
+                        :class="{ 'list-group-item': true, 'list-group-item-info': true, 'm-0': true, 'list-group-item-primary': employmentStatus === EmploymentStatus.ToBeEmployed, 'list-group-item-success': employmentStatus === EmploymentStatus.Employed, 'list-group-item-warning': employmentStatus === null || employmentStatus === EmploymentStatus.ToBeTerminated, 'list-group-item-danger': employmentStatus === EmploymentStatus.Terminated }">
+                        {{ message }}
+                    </div>
                     <EmployeeDetailsListItem :name="'Gender'" :required="true" :value="employee.Gender" />
                     <EmployeeDetailsListItem :name="'Occupation'" :required="true" :value="employee.Occupation" />
                     <EmployeeDetailsListItem :name="'Date of Birth'" :required="true" :validator="isDateInPast"
@@ -26,12 +30,6 @@
                     <EmployeeDetailsListItem :name="'Termination Date'" :required="false" :validator="isDateValid"
                         :value="employee.TerminationDate" :editable="true" :type="'DATE'"
                         :minimum-value="employee.EmploymentDate" @onEditValue="onChangeTerminationDate" />
-                    <div v-if="message" class="p-3">
-                        <div :class="{ 'alert': true, 'alert-info': true, 'm-0': true, 'alert-primary': employmentStatus === EmploymentStatus.ToBeEmployed, 'alert-success': employmentStatus === EmploymentStatus.Employed, 'alert-warning': employmentStatus === null || employmentStatus === EmploymentStatus.ToBeTerminated, 'alert-danger': employmentStatus === EmploymentStatus.Terminated }"
-                            class="alert alert-info m-0">
-                            {{ message }}
-                        </div>
-                    </div>
                 </div>
             </template>
             <template v-else-if="loading">
